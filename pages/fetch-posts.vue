@@ -5,7 +5,7 @@
   </div>
   <Card>
     <template #content>
-      <p class="m-0">{{ posts }}</p>
+      <pre class="m-0">{{ posts }}</pre>
     </template>
   </Card>
 </template>
@@ -18,7 +18,13 @@ const posts = ref('');
 const fetchData = async () => {
   const response = await fetch('http://localhost:3333/post/');
   const data = await response.json();
-  posts.value = data["data"]; //TODO: Loop all posts     |     data["data"][0]
+  let result = '';
+
+  for (const obj of data["data"]) {
+    result += `Title: ${obj["title"]} (${obj["id"]})\nContent: ${obj["content"]}` + '\n\n';
+  }
+
+  posts.value = result;
 };
 </script>
 
